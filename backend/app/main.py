@@ -26,7 +26,7 @@ from app.models.database import create_tables
 
 settings = get_settings()
 
-# ─── Logging Configuration ────────────────────────────────────────────────────
+#  Logging Configuration
 logging.basicConfig(
     level=logging.DEBUG if settings.DEBUG else logging.INFO,
     format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
@@ -37,7 +37,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# ─── Lifespan ─────────────────────────────────────────────────────────────────
+#  Lifespan 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application startup and shutdown events."""
@@ -52,7 +52,7 @@ async def lifespan(app: FastAPI):
     logger.info("Application shutting down")
 
 
-# ─── Application ──────────────────────────────────────────────────────────────
+#  Application ─
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
@@ -63,11 +63,11 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# ─── Rate Limiter ─────────────────────────────────────────────────────────────
+#  Rate Limiter 
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-# ─── Middleware (order matters: last added = first executed) ──────────────────
+#  Middleware (order matters: last added = first executed)
 app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(RequestLoggingMiddleware)
 app.add_middleware(ContentTypeValidationMiddleware)
@@ -89,13 +89,13 @@ if settings.is_production:
         allowed_hosts=["yourdomain.com", "www.yourdomain.com"],
     )
 
-# ─── Routers ──────────────────────────────────────────────────────────────────
+#  Routers ─
 app.include_router(auth_router)
 app.include_router(user_router)
 app.include_router(process_router)
 
 
-# ─── Global Exception Handlers ────────────────────────────────────────────────
+#  Global Exception Handlers 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     logger.error(
