@@ -1,0 +1,36 @@
+# ─── Backend Setup ────────────────────────────────────────────────────────────
+cd backend
+pip install -r requirements.txt
+
+# Create .env from template
+cp .env.example .env
+# Edit .env and set SECRET_KEY to a real random value:
+python -c "import secrets; print('SECRET_KEY=' + secrets.token_urlsafe(64))"
+
+# Run database migrations
+python -c "from app.models.database import create_tables; create_tables()"
+
+# Start development server
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+# ─── Frontend Setup ───────────────────────────────────────────────────────────
+cd frontend
+npm install
+
+# Create environment file
+echo "REACT_APP_API_URL=http://localhost:8000" > .env
+
+npm start
+
+# ─── Run Tests ────────────────────────────────────────────────────────────────
+cd backend
+pytest tests/ -v --cov=app --cov-report=html
+
+# ─── Docker Production Deployment ────────────────────────────────────────────
+cd "Mpesa App"
+docker-compose build
+docker-compose up -d
+
+# View logs
+docker-compose logs -f backend
+docker-compose logs -f frontend
