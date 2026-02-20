@@ -64,7 +64,7 @@ export const ResultDownload: React.FC<ResultDownloadProps> = ({
           ) : (
             <>
               <span aria-hidden="true">📥</span>
-              Download Excel
+              Download {filename ?? "Excel"}
             </>
           )}
         </button>
