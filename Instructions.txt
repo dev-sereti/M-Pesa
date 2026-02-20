@@ -22,7 +22,7 @@ echo "REACT_APP_API_URL=http://localhost:8000" > .env
 
 npm start
 
-# ─── Run Tests ────────────────────────────────────────────────────────────────
+# ─── Run Tests
 cd backend
 pytest tests/ -v --cov=app --cov-report=html
 
