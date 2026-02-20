@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./ProcessingStatus.module.css";
-import { ProcessingState } from "../../hooks/useStatementProcessor";
+import type { ProcessingState } from "../../hooks/useStatementProcessor";
+
+// import { ProcessingState } from "../../hooks/useStatementProcessor";
 
 interface ProcessingStatusProps {
   state: ProcessingState;
