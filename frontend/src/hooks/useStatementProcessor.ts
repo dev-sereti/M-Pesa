@@ -4,7 +4,10 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { apiClient, ApiError, ProcessingJob, ProcessingStatus } from "../services/api";
+// import { apiClient, ApiError, ProcessingJob, ProcessingStatus } from "../services/api";
+import { apiClient, ApiError } from "../services/api";
+import type { ProcessingJob } from "../services/api";
+import type { ProcessingStatus } from "../services/api";
 
 export type ProcessingState =
   | "idle"
@@ -31,7 +34,8 @@ export function useStatementProcessor(): UseStatementProcessorReturn {
   const [status, setStatus] = useState<ProcessingStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  // const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const pollIntervalRef = useRef<number | null>(null);
   const maxPollAttempts = 60; // 5 minutes at 5s intervals
   const pollAttemptsRef = useRef(0);
 
